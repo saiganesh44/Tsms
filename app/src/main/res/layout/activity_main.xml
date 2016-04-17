@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
 
-        <android.support.v7.widget.Toolbar
+        <com.codestub.tsms.appbar.TsmsAppBar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
@@ -23,8 +23,10 @@
 
     <!--<include layout="@layout/content_main" />-->
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/conversationsList"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+        android:layout_height="match_parent"
+        android:paddingTop="60sp"/>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
