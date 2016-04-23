@@ -10,10 +10,16 @@
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <com.codestub.tsms.appbar.TsmsAppBar
-            android:id="@+id/toolbar"
+            android:id="@+id/applicationBar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:layout_scrollFlags="scroll|enterAlways"/>
+
+        <com.codestub.tsms.appbar.TsmsAppBar
+            android:id="@+id/conversationBar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
@@ -21,12 +27,7 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <!--<include layout="@layout/content_main" />-->
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/conversationsList"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingTop="60sp"/>
+    <include layout="@layout/content_main" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
