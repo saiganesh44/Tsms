@@ -13,11 +13,6 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <LinearLayout
-                android:id="@+id/contantPhotoLayout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
                 <ImageView
                     android:id="@+id/contantPhoto"
                     android:contentDescription="@string/contactPhotoDesc"
@@ -25,12 +20,10 @@
                     android:layout_height="50dp"
                     android:src="@mipmap/ic_launcher"/>
 
-            </LinearLayout>
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="wrap_content">
 
                 <TextView
                     android:id="@+id/sender"
@@ -42,9 +35,21 @@
                     android:id="@+id/abstractConvo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_below="@+id/sender"
+                    android:textSize="15sp"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:layout_marginEnd="55dp"/>
+
+                <TextView
+                    android:id="@+id/date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignBaseline="@+id/abstractConvo"
                     android:textSize="15sp"/>
 
-            </LinearLayout>
+            </RelativeLayout>
 
         </LinearLayout>
 

@@ -1,6 +1,8 @@
 package com.codestub.tsms;
 
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
@@ -8,25 +10,27 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 import com.codestub.tsms.appbar.TsmsAppBar;
 import com.codestub.tsms.conversationslist.ConversationsListAdapter;
-import com.codestub.tsms.model.Conversation;
+import com.codestub.tsms.conversationslist.Conversation;
+import com.codestub.tsms.conversationslist.ConversationsListProvider;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private List<Conversation> conversationList;
+    private ConversationsListProvider provider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d("mainactivity","oncreate called");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initAppBars();
-        initializeData();
         loadRecyclerView();
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         if(fab != null) {
@@ -61,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.conversationsList);
         if(recyclerView != null) {
             recyclerView.setHasFixedSize(true);
-            ConversationsListAdapter adapter = new ConversationsListAdapter(conversationList);
+            ConversationsListAdapter adapter = new ConversationsListAdapter(this);
             RecyclerView.LayoutManager llm = new LinearLayoutManager(getApplicationContext());
             recyclerView.setLayoutManager(llm);
             recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -69,20 +73,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void initializeData() {
-        conversationList = new ArrayList<>();
-        conversationList.add(new Conversation("1234563","sai"));
-        conversationList.add(new Conversation("1234563","varshini"));
-        conversationList.add(new Conversation("1234563","ganesh"));
-        conversationList.add(new Conversation("1234563","vuradi"));
-        conversationList.add(new Conversation("1234563","pittala"));
-        conversationList.add(new Conversation("1234563","sampath"));
-        conversationList.add(new Conversation("1234563","varun"));
-        conversationList.add(new Conversation("1234563","sushma"));
-        conversationList.add(new Conversation("1234563","sai"));
-        conversationList.add(new Conversation("1234563","venu"));
-        conversationList.add(new Conversation("1234563","vijay"));
-        conversationList.add(new Conversation("1234563","me"));
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case RequestCodes.READ_SMS_REQUEST_CODE : {
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    loadRecyclerView();
+                }
+            }
+        }
     }
-
 }
