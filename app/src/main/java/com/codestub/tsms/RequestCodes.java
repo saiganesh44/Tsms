@@ -6,6 +6,6 @@ package com.codestub.tsms;
  */
 public interface RequestCodes {
 
-    int READ_SMS_REQUEST_CODE = 1;
+    int MAIN_ACTIVITY_REQUEST_CODE = 1;
 
 }

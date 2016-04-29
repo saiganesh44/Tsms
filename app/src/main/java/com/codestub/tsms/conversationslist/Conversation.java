@@ -1,8 +1,10 @@
 package com.codestub.tsms.conversationslist;
 
+import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
 
+import com.codestub.tsms.utils.ContactUtils;
 import com.codestub.tsms.utils.DateUtils;
 
 import java.util.Date;
@@ -19,9 +21,9 @@ public class Conversation {
         this.abstractConvo = abstractConvo;
     }
 
-    public Conversation(Context context, Cursor cursor) {
+    public Conversation(Activity activity, Cursor cursor) {
         this.thread_id = cursor.getString(0);
-        this.senderPhNo = cursor.getString(1);
+        this.senderPhNo = ContactUtils.getContactName(activity, cursor.getString(1));
         this.abstractConvo = cursor.getString(2);
         this.date = DateUtils.getDate(cursor.getString(3));
     }

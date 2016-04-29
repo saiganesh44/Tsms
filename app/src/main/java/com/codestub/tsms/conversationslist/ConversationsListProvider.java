@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.provider.Telephony;
 import android.util.Log;
 
+import com.codestub.tsms.Permissions;
 import com.codestub.tsms.RequestCodes;
 import com.codestub.tsms.utils.PermissionUtils;
 
@@ -19,16 +20,13 @@ public class ConversationsListProvider {
     private Activity activity;
     private Cursor cursor;
 
-    private String READ_SMS_PERMISSION = Manifest.permission.READ_SMS;
-
     public ConversationsListProvider(Activity activity) {
         this.activity = activity;
         this.initCursor();
     }
 
     public void initCursor() {
-        if(!PermissionUtils.isGranted(activity,READ_SMS_PERMISSION)) {
-            PermissionUtils.require(activity,READ_SMS_PERMISSION, RequestCodes.READ_SMS_REQUEST_CODE);
+        if(!PermissionUtils.isGranted(activity, Permissions.READ_SMS_PERMISSION)) {
             return;
         }
         ContentResolver contentResolver = activity.getContentResolver();

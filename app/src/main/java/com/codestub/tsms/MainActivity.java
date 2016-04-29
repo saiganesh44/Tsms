@@ -1,5 +1,6 @@
 package com.codestub.tsms;
 
+import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -17,6 +18,7 @@ import com.codestub.tsms.appbar.TsmsAppBar;
 import com.codestub.tsms.conversationslist.ConversationsListAdapter;
 import com.codestub.tsms.conversationslist.Conversation;
 import com.codestub.tsms.conversationslist.ConversationsListProvider;
+import com.codestub.tsms.utils.PermissionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initAppBars();
+        checkPermissions();
         loadRecyclerView();
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         if(fab != null) {
@@ -73,11 +76,16 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void checkPermissions() {
+        String[] requiredPermissions = new String[]{Permissions.READ_SMS_PERMISSION, Permissions.READ_CONTACTS_PERMISSION};
+        PermissionUtils.require(this,requiredPermissions, RequestCodes.MAIN_ACTIVITY_REQUEST_CODE);
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
-            case RequestCodes.READ_SMS_REQUEST_CODE : {
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            case RequestCodes.MAIN_ACTIVITY_REQUEST_CODE : {
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED || grantResults[1] == PackageManager.PERMISSION_GRANTED) {
                     loadRecyclerView();
                 }
             }
