@@ -1,9 +1,17 @@
 package com.codestub.tsms.conversationslist;
 
 import android.app.Activity;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
+import android.support.v4.media.RatingCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +19,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.codestub.tsms.R;
+import com.codestub.tsms.utils.BitmapUtils;
+import com.codestub.tsms.utils.ConversionUtils;
 
 
 /**
@@ -20,8 +30,10 @@ import com.codestub.tsms.R;
 public class ConversationsListAdapter extends RecyclerView.Adapter<ConversationsListAdapter.ConversationsListViewHolder> {
 
     ConversationsListProvider provider;
+    Activity activity;
 
     public ConversationsListAdapter(Activity activity) {
+        this.activity = activity;
         this.provider = new ConversationsListProvider(activity);
     }
 
@@ -44,9 +56,22 @@ public class ConversationsListAdapter extends RecyclerView.Adapter<Conversations
         holder.date.setText(conversation.getDate());
         Bitmap contactPhoto = conversation.getContact().getBitmapPhoto();
         if(contactPhoto != null) {
-            holder.photo.setImageBitmap(conversation.getContact().getBitmapPhoto());
+            Bitmap bitmap = conversation.getContact().getBitmapPhoto();
+            holder.photo.setImageBitmap(BitmapUtils.getCircularBitmap(bitmap));
         } else {
-            holder.photo.setImageResource(R.mipmap.ic_launcher);
+            int width = holder.photo.getLayoutParams().width;
+            int height = holder.photo.getLayoutParams().height;
+            int bitmapWidth = (int) ConversionUtils.dpTopx(activity, width);
+            int bitmapHeight = (int) ConversionUtils.dpTopx(activity, height);
+
+            Bitmap bitmap;
+            char c = conversation.getSenderPhNo().toUpperCase().charAt(0);
+            if (Character.isLetter(c)){
+                bitmap = BitmapUtils.getLetteredAvatar(activity, c, bitmapWidth, bitmapHeight);
+            } else {
+                bitmap = BitmapUtils.getLetteredAvatar(activity, '#', bitmapWidth, bitmapHeight);
+            }
+            holder.photo.setImageBitmap(bitmap);
         }
     }
 
