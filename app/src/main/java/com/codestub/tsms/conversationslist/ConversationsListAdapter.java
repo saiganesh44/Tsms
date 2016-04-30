@@ -1,11 +1,13 @@
 package com.codestub.tsms.conversationslist;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.codestub.tsms.R;
@@ -40,11 +42,18 @@ public class ConversationsListAdapter extends RecyclerView.Adapter<Conversations
         holder.sender.setText(conversation.getSenderPhNo());
         holder.abstractConvo.setText(conversation.getAbstractConvo());
         holder.date.setText(conversation.getDate());
+        Bitmap contactPhoto = conversation.getContact().getBitmapPhoto();
+        if(contactPhoto != null) {
+            holder.photo.setImageBitmap(conversation.getContact().getBitmapPhoto());
+        } else {
+            holder.photo.setImageResource(R.mipmap.ic_launcher);
+        }
     }
 
     public static class ConversationsListViewHolder extends RecyclerView.ViewHolder {
         CardView cv;
         TextView abstractConvo, sender, date;
+        ImageView photo;
 
         public ConversationsListViewHolder(View itemView) {
             super(itemView);
@@ -52,6 +61,7 @@ public class ConversationsListAdapter extends RecyclerView.Adapter<Conversations
             sender = (TextView) itemView.findViewById(R.id.sender);
             abstractConvo = (TextView) itemView.findViewById(R.id.abstractConvo);
             date = (TextView) itemView.findViewById(R.id.date);
+            photo = (ImageView) itemView.findViewById(R.id.contantPhoto);
         }
     }
 }

@@ -9,6 +9,7 @@ import android.util.Log;
 
 import com.codestub.tsms.Permissions;
 import com.codestub.tsms.RequestCodes;
+import com.codestub.tsms.cache.Cache;
 import com.codestub.tsms.utils.PermissionUtils;
 
 /**
@@ -19,13 +20,18 @@ public class ConversationsListProvider {
 
     private Activity activity;
     private Cursor cursor;
+    private Cache cache;
+    private String[] threadIDs;
 
     public ConversationsListProvider(Activity activity) {
         this.activity = activity;
         this.initCursor();
+        cache = Cache.getInstance(getClass().getName());
+        threadIDs = new String[this.size()];
+        this.loadAllConversations();
     }
 
-    public void initCursor() {
+    private void initCursor() {
         if(!PermissionUtils.isGranted(activity, Permissions.READ_SMS_PERMISSION)) {
             return;
         }
@@ -39,8 +45,7 @@ public class ConversationsListProvider {
      * @return the conversation object
      */
     public Conversation getItem(int position) {
-        cursor.moveToPosition(position);
-        return new Conversation(activity, cursor);
+        return cache.get(threadIDs[position]);
     }
 
     /**
@@ -52,6 +57,17 @@ public class ConversationsListProvider {
             return cursor.getCount();
         } else {
             return 0;
+        }
+    }
+
+    private void loadAllConversations() {
+        int i=0;
+        if(cursor.moveToNext()) {
+            do {
+                threadIDs[i] = cursor.getString(0);
+                cache.put(new Conversation(activity, cursor));
+                i++;
+            } while(cursor.moveToNext());
         }
     }
 }
