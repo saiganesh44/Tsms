@@ -13,14 +13,19 @@ public class TsmsAppBar extends Toolbar{
 
     public TsmsAppBar(Context context) {
         super(context);
+        super.setTitle("");
     }
 
     public TsmsAppBar(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+        super.setTitle("");
     }
 
     public TsmsAppBar(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        super.setTitle("");
     }
+
+
 
 }

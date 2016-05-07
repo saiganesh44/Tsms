@@ -1,6 +1,5 @@
 package com.codestub.tsms;
 
-import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -16,12 +15,8 @@ import android.view.View;
 
 import com.codestub.tsms.appbar.TsmsAppBar;
 import com.codestub.tsms.conversationslist.ConversationsListAdapter;
-import com.codestub.tsms.conversationslist.Conversation;
 import com.codestub.tsms.conversationslist.ConversationsListProvider;
 import com.codestub.tsms.utils.PermissionUtils;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 

@@ -1,14 +1,11 @@
 package com.codestub.tsms.conversationslist;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.database.Cursor;
 import android.provider.Telephony;
-import android.util.Log;
 
 import com.codestub.tsms.Permissions;
-import com.codestub.tsms.RequestCodes;
 import com.codestub.tsms.cache.Cache;
 import com.codestub.tsms.utils.PermissionUtils;
 
@@ -44,7 +41,7 @@ public class ConversationsListProvider {
      * @param position of the item
      * @return the conversation object
      */
-    public Conversation getItem(int position) {
+    public ConversationTile getItem(int position) {
         return cache.get(threadIDs[position]);
     }
 
@@ -65,7 +62,7 @@ public class ConversationsListProvider {
         if(cursor.moveToNext()) {
             do {
                 threadIDs[i] = cursor.getString(0);
-                cache.put(new Conversation(activity, cursor));
+                cache.put(new ConversationTile(activity, cursor));
                 i++;
             } while(cursor.moveToNext());
         }

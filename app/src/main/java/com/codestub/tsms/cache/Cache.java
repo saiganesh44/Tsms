@@ -1,6 +1,6 @@
 package com.codestub.tsms.cache;
 
-import com.codestub.tsms.conversationslist.Conversation;
+import com.codestub.tsms.conversationslist.ConversationTile;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -14,7 +14,7 @@ public class Cache {
 
     private static final Map<String, Cache> instanceHolder = new HashMap<>();
     private String key;
-    private final HashSet<Conversation> cacheSet;
+    private final HashSet<ConversationTile> cacheSet;
 
     private Cache(String key) {
         this.key = key;
@@ -32,23 +32,23 @@ public class Cache {
         }
     }
 
-    public Conversation get(String threadID) {
-        Conversation conversation = null;
+    public ConversationTile get(String threadID) {
+        ConversationTile conversationTile = null;
         synchronized (cacheSet) {
-            for(Conversation c : cacheSet) {
+            for(ConversationTile c : cacheSet) {
                 if(c.getThreadID().equals(threadID)){
-                    conversation = c;
+                    conversationTile = c;
                     break;
                 }
             }
-            return conversation;
+            return conversationTile;
         }
     }
 
-    public void put(Conversation conversation) {
+    public void put(ConversationTile conversationTile) {
         synchronized (cacheSet) {
-            if(!cacheSet.contains(conversation)){
-               cacheSet.add(conversation);
+            if(!cacheSet.contains(conversationTile)){
+               cacheSet.add(conversationTile);
             }
         }
     }

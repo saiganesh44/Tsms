@@ -8,20 +8,20 @@ import com.codestub.tsms.contact.ContactUtils;
 import com.codestub.tsms.utils.DateUtils;
 
 /**
- * This is a POJO class for Conversation
+ * This is a POJO class for ConversationTile
  * Created by ganesh on 20/4/16.
  */
-public class Conversation {
+public class ConversationTile {
     private String threadID, contactName, address, senderPhNo, date, abstractConvo;
     private Contact contact;
 
-    public Conversation(String senderPhNo, String abstractConvo) {
+    public ConversationTile(String senderPhNo, String abstractConvo) {
         this.senderPhNo = senderPhNo;
         this.address = senderPhNo;
         this.abstractConvo = abstractConvo;
     }
 
-    public Conversation(Activity activity, Cursor cursor) {
+    public ConversationTile(Activity activity, Cursor cursor) {
         this.threadID = cursor.getString(0);
         this.abstractConvo = cursor.getString(2);
         this.date = DateUtils.getDate(cursor.getString(3));

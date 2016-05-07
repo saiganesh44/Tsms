@@ -30,7 +30,6 @@ public class BitmapUtils {
         Rect rect = new Rect();
         paint.getTextBounds("" + c,0,1,rect);
         canvas.drawText("" + c,(bitmap.getWidth() - rect.width())/2, (bitmap.getHeight() + rect.height())/2, paint);
-
         return bitmap;
     }
 

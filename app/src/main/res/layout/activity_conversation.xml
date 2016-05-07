@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.codestub.tsms.conversation.ConversationActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:id="@+id/view">
+
+        <com.codestub.tsms.appbar.TsmsAppBar
+            android:id="@+id/conversationAppBar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_alignTop="@+id/view">
+
+            <ImageView
+                android:id="@+id/contantPhoto"
+                android:contentDescription="@string/contactPhotoDesc"
+                android:layout_width="40dp"
+                android:layout_height="40dp"/>
+
+            <TextView
+                android:id="@+id/sender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:textSize="25sp"/>
+        </com.codestub.tsms.appbar.TsmsAppBar>
+
+    </android.support.design.widget.AppBarLayout>
+
+
+
+</RelativeLayout>
