@@ -43,13 +43,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initAppBars() {
-        //init application bar
-        TsmsAppBar applicationBar = (TsmsAppBar) findViewById(R.id.applicationBar);
-        setSupportActionBar(applicationBar);
-        ActionBar applicationActionBar = getSupportActionBar();
-        if(applicationActionBar != null) {
-            applicationActionBar.setTitle(R.string.app_name);
-        }
         //init conversations bar
         TsmsAppBar tsmsAppBar = (TsmsAppBar) findViewById(R.id.conversationBar);
         setSupportActionBar(tsmsAppBar);
