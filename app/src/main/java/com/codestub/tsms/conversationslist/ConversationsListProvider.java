@@ -7,13 +7,14 @@ import android.provider.Telephony;
 
 import com.codestub.tsms.Permissions;
 import com.codestub.tsms.cache.Cache;
+import com.codestub.tsms.model.BasicProvider;
 import com.codestub.tsms.utils.PermissionUtils;
 
 /**
  * This class provides data for conversations list
  * Created by ganesh on 23/4/16.
  */
-public class ConversationsListProvider {
+public class ConversationsListProvider extends BasicProvider<ConversationTile>{
 
     private Activity activity;
     private Cursor cursor;
@@ -21,6 +22,7 @@ public class ConversationsListProvider {
     private String[] threadIDs;
 
     public ConversationsListProvider(Activity activity) {
+        super(activity);
         this.activity = activity;
         this.initCursor();
         cache = Cache.getInstance(getClass().getName());
@@ -28,12 +30,16 @@ public class ConversationsListProvider {
         this.loadAllConversations();
     }
 
-    private void initCursor() {
+    protected Cursor getCursor() {
+        return cursor;
+    }
+
+    protected void initCursor() {
         if(!PermissionUtils.isGranted(activity, Permissions.READ_SMS_PERMISSION)) {
             return;
         }
         ContentResolver contentResolver = activity.getContentResolver();
-        cursor = contentResolver.query(Telephony.Threads.CONTENT_URI, new String[]{Telephony.TextBasedSmsColumns.THREAD_ID, Telephony.TextBasedSmsColumns.ADDRESS, Telephony.TextBasedSmsColumns.BODY, Telephony.TextBasedSmsColumns.DATE}, null, null, Telephony.ThreadsColumns.DATE+ " DESC");
+        cursor = contentResolver.query(Telephony.Threads.CONTENT_URI, new String[]{Telephony.TextBasedSmsColumns.THREAD_ID, Telephony.TextBasedSmsColumns.ADDRESS, Telephony.TextBasedSmsColumns.BODY, Telephony.TextBasedSmsColumns.DATE}, null, null, Telephony.ThreadsColumns.DATE + " DESC");
     }
 
     /**
@@ -42,19 +48,7 @@ public class ConversationsListProvider {
      * @return the conversation object
      */
     public ConversationTile getItem(int position) {
-        return cache.get(threadIDs[position]);
-    }
-
-    /**
-     *
-     * @return the number of items in the cursor
-     */
-    public int size() {
-        if(cursor != null) {
-            return cursor.getCount();
-        } else {
-            return 0;
-        }
+        return (ConversationTile) cache.get(threadIDs[position]);
     }
 
     private void loadAllConversations() {
@@ -62,7 +56,7 @@ public class ConversationsListProvider {
         if(cursor.moveToNext()) {
             do {
                 threadIDs[i] = cursor.getString(0);
-                cache.put(new ConversationTile(activity, cursor));
+                cache.put(cursor.getString(0),new ConversationTile(activity, cursor));
                 i++;
             } while(cursor.moveToNext());
         }

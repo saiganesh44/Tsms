@@ -1,9 +1,6 @@
 package com.codestub.tsms.cache;
 
-import com.codestub.tsms.conversationslist.ConversationTile;
-
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 
 /**
@@ -13,42 +10,33 @@ import java.util.Map;
 public class Cache {
 
     private static final Map<String, Cache> instanceHolder = new HashMap<>();
-    private String key;
-    private final HashSet<ConversationTile> cacheSet;
+    private final HashMap<String, Object> cacheMap;
 
-    private Cache(String key) {
-        this.key = key;
-        this.cacheSet = new HashSet<>();
+    private Cache() {
+        this.cacheMap = new HashMap<>();
     }
 
     public static Cache getInstance(String key) {
         synchronized (instanceHolder) {
             Cache obj = instanceHolder.get(key);
             if (obj == null) {
-                obj = new Cache(key);
+                obj = new Cache();
                 instanceHolder.put(key, obj);
             }
             return obj;
         }
     }
 
-    public ConversationTile get(String threadID) {
-        ConversationTile conversationTile = null;
-        synchronized (cacheSet) {
-            for(ConversationTile c : cacheSet) {
-                if(c.getThreadID().equals(threadID)){
-                    conversationTile = c;
-                    break;
-                }
-            }
-            return conversationTile;
+    public Object get(String key) {
+        synchronized (cacheMap) {
+            return cacheMap.get(key);
         }
     }
 
-    public void put(ConversationTile conversationTile) {
-        synchronized (cacheSet) {
-            if(!cacheSet.contains(conversationTile)){
-               cacheSet.add(conversationTile);
+    public void put(String key, Object obj) {
+        synchronized (cacheMap) {
+            if(!cacheMap.containsKey(key)) {
+                cacheMap.put(key, obj);
             }
         }
     }

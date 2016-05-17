@@ -7,7 +7,8 @@ package com.codestub.tsms;
 public enum  Constants {
     CONTACT_PHOTO_BYTES("contactPhotoBytes"),
     TRANSITION_SENDER("transitionSender"),
-    TRANSITION_PHOTO("transitionPhoto");
+    TRANSITION_PHOTO("transitionPhoto"),
+    THREAD_ID("threadID");
     private String value;
 
     Constants(String value){
