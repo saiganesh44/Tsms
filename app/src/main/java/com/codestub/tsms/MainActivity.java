@@ -1,5 +1,7 @@
 package com.codestub.tsms;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -16,16 +18,19 @@ import android.view.View;
 import com.codestub.tsms.appbar.TsmsAppBar;
 import com.codestub.tsms.conversationslist.ConversationsListAdapter;
 import com.codestub.tsms.conversationslist.ConversationsListProvider;
+import com.codestub.tsms.newconversation.NewConversationActivity;
 import com.codestub.tsms.utils.PermissionUtils;
 
 public class MainActivity extends AppCompatActivity {
 
     private ConversationsListProvider provider;
+    private Activity mActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d("mainactivity","oncreate called");
         super.onCreate(savedInstanceState);
+        mActivity = this;
         setContentView(R.layout.activity_main);
         initAppBars();
         checkPermissions();
@@ -35,8 +40,10 @@ public class MainActivity extends AppCompatActivity {
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
+                    Intent newConversationActivity = new Intent(mActivity, NewConversationActivity.class);
+                    mActivity.startActivity(newConversationActivity);
+                    //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                      //      .setAction("Action", null).show();
                 }
             });
         }

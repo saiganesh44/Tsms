@@ -17,4 +17,10 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="ContactListView">
+        <item name="android:verticalScrollbarPosition">right</item>
+        <item name="android:fastScrollEnabled">true</item>
+        <item name="android:scrollbarStyle">outsideInset</item>
+    </style>
+
 </resources>

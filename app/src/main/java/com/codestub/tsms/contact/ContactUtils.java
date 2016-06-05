@@ -3,6 +3,7 @@ package com.codestub.tsms.contact;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.ContentUris;
+import android.content.Context;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -42,11 +43,11 @@ public class ContactUtils {
         return name;
     }
 
-    protected static void fillup(Activity activity, String address, Contact contact) {
+    protected static void fillup(Context context, String address, Contact contact) {
         //by making this protected we are eliminating the need to check if obj is null
-        if(PermissionUtils.isGranted(activity, Permissions.READ_CONTACTS_PERMISSION) && !StringUtils.isEmpty(address)) {
+        if(PermissionUtils.isGranted(context, Permissions.READ_CONTACTS_PERMISSION) && !StringUtils.isEmpty(address)) {
             Uri uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(address));
-            ContentResolver resolver = activity.getApplicationContext().getContentResolver();
+            ContentResolver resolver = context.getContentResolver();
             Cursor cursor = resolver.query(uri, new String[]{ContactsContract.PhoneLookup._ID, ContactsContract.PhoneLookup.DISPLAY_NAME}, null, null, null);
             if(cursor != null) {
                 try {
@@ -61,7 +62,7 @@ public class ContactUtils {
 
             Uri contactURI = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, contact.getContactID());
             Uri photoURI = Uri.withAppendedPath(contactURI, ContactsContract.Contacts.Photo.CONTENT_DIRECTORY);
-            Cursor photoCursor = activity.getApplicationContext().getContentResolver().query(photoURI, new String[] {ContactsContract.Contacts.Photo.PHOTO}, null, null, null);
+            Cursor photoCursor = context.getContentResolver().query(photoURI, new String[] {ContactsContract.Contacts.Photo.PHOTO}, null, null, null);
             if (photoCursor != null) {
                 try {
                     if (photoCursor.moveToFirst()) {
