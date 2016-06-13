@@ -5,6 +5,7 @@ import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.ContactsContract;
@@ -43,6 +44,65 @@ public class ContactUtils {
         return name;
     }
 
+    public static void setPhoneNumberAndType(Contact contact) {
+        Cursor c = contact.getContext().getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
+                ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=?", new String[]{String.valueOf(contact.getContactID())}, null);
+        try {
+            if (c != null && c.moveToNext()) {
+                String number = c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                contact.setPhoneNumber(number);
+                contact.setType(getType(c));
+            }
+        }catch (Exception e) {
+            //Do nothing
+        } finally {
+            if(c != null) {
+                c.close();
+            }
+        }
+    }
+
+    private static String getType(Cursor c) {
+        int type = c.getInt(c.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
+        String returnType = "";
+        switch(type) {
+            case ContactsContract.CommonDataKinds.Phone.TYPE_HOME :
+                returnType = "Home";
+                break;
+            case ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE :
+                returnType = "Mobile";
+                break;
+            case ContactsContract.CommonDataKinds.Phone.TYPE_WORK :
+                returnType = "Work";
+                break;
+            case ContactsContract.CommonDataKinds.Phone.TYPE_OTHER :
+                returnType = "Other";
+                break;
+            case ContactsContract.CommonDataKinds.Phone.TYPE_CUSTOM :
+                returnType = c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Phone.LABEL));
+                break;
+        }
+        return returnType;
+    }
+
+    public static void setContactPhoto(Contact contact) {
+        Uri contactURI = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, contact.getContactID());
+        Uri photoURI = Uri.withAppendedPath(contactURI, ContactsContract.Contacts.Photo.CONTENT_DIRECTORY);
+        Cursor photoCursor = contact.getContext().getContentResolver().query(photoURI, new String[] {ContactsContract.Contacts.Photo.PHOTO}, null, null, null);
+        if (photoCursor != null) {
+            try {
+                if (photoCursor.moveToFirst()) {
+                    byte[] data = photoCursor.getBlob(0);
+                    if (data != null) {
+                        contact.setBitmapPhoto(BitmapFactory.decodeStream(new ByteArrayInputStream(data)));
+                    }
+                }
+            } finally {
+                photoCursor.close();
+            }
+        }
+    }
+
     protected static void fillup(Context context, String address, Contact contact) {
         //by making this protected we are eliminating the need to check if obj is null
         if(PermissionUtils.isGranted(context, Permissions.READ_CONTACTS_PERMISSION) && !StringUtils.isEmpty(address)) {
@@ -60,21 +120,7 @@ public class ContactUtils {
                 }
             }
 
-            Uri contactURI = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, contact.getContactID());
-            Uri photoURI = Uri.withAppendedPath(contactURI, ContactsContract.Contacts.Photo.CONTENT_DIRECTORY);
-            Cursor photoCursor = context.getContentResolver().query(photoURI, new String[] {ContactsContract.Contacts.Photo.PHOTO}, null, null, null);
-            if (photoCursor != null) {
-                try {
-                    if (photoCursor.moveToFirst()) {
-                        byte[] data = photoCursor.getBlob(0);
-                        if (data != null) {
-                            contact.setBitmapPhoto(BitmapFactory.decodeStream(new ByteArrayInputStream(data)));
-                        }
-                    }
-                } finally {
-                    photoCursor.close();
-                }
-            }
+            setContactPhoto(contact);
         }
     }
 }

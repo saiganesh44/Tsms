@@ -2,8 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="7dp"
-    android:paddingTop="7dp">
+    style="@style/listItemView">
 
     <android.support.v7.widget.CardView
         android:id="@+id/conversationCard"
@@ -18,12 +17,11 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingStart="10dp"
-                android:paddingEnd="7dp">
+                style="@style/listItemContent">
 
                 <ImageView
-                    android:id="@+id/contantPhoto"
-                    android:contentDescription="@string/contactPhotoDesc"
+                    android:id="@+id/senderPhoto"
+                    android:contentDescription="@string/senderPhotoDesc"
                     android:layout_width="50dp"
                     android:layout_height="50dp"/>
 

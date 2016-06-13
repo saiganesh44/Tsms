@@ -27,7 +27,7 @@ public class ConversationActivity extends AppCompatActivity {
         Intent intent = getIntent();
         byte[] byteArray = intent.getByteArrayExtra(Constants.CONTACT_PHOTO_BYTES.toString());
         Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-        ImageView photo = (ImageView) findViewById(R.id.contantPhoto);
+        ImageView photo = (ImageView) findViewById(R.id.senderPhoto);
         TextView sender = (TextView) findViewById(R.id.sender);
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

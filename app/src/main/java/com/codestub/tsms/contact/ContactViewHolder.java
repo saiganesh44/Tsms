@@ -1,6 +1,10 @@
 package com.codestub.tsms.contact;
 
+import android.os.AsyncTask;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.lang.ref.WeakReference;
 
 /**
  * Contact View Holder POJO Class
@@ -9,4 +13,15 @@ import android.widget.TextView;
 public class ContactViewHolder {
     TextView displayName;
     TextView number;
+    ImageView contactPhoto;
+
+    WeakReference<AsyncTask> asyncTaskReference;
+
+    public void setAsyncTaskReference(AsyncTask task) {
+        asyncTaskReference = new WeakReference<>(task);
+    }
+
+    public AsyncTask getAsyncTask() {
+        return asyncTaskReference.get();
+    }
 }

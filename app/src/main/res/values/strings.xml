@@ -5,6 +5,7 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="contactPhotoDesc">Contact Photo</string>
+    <string name="senderPhotoDesc">Sender Photo</string>
     <string name="no_contacts">No Contacts Found</string>
     <string name="menu_search">Search</string>
     <string name="search_hint">Find contacts</string>

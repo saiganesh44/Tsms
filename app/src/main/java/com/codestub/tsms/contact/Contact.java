@@ -6,6 +6,9 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.provider.ContactsContract;
 
+import com.codestub.tsms.utils.BitmapUtils;
+import com.codestub.tsms.utils.BuildUtils;
+
 /**
  * This class is a pojo class which maintains contacts information
  * Created by ganesh on 29/4/16.
@@ -13,16 +16,17 @@ import android.provider.ContactsContract;
 public class Contact {
 
     private Context context;
-    private String address, displayName;
+    private String displayName;
     private boolean hasPhoneNumber;
     private String phoneNumber;
     private long contactID;
     private Bitmap bitmapPhoto;
+    private Bitmap circularBitmapPhoto;
     private String type;
 
     public Contact(Context context, String address) {
         this.context = context;
-        this.address = address;
+        this.phoneNumber = address;
         //by default assign address to displayName
         this.displayName = address;
         ContactUtils.fillup(context, address, this);
@@ -67,58 +71,50 @@ public class Contact {
         this.bitmapPhoto = bitmapPhoto;
     }
 
+    public void setCircularBitmapPhoto(Bitmap bitmap) {
+        this.circularBitmapPhoto = bitmap;
+    }
+
     public Bitmap getBitmapPhoto() {
+        if(bitmapPhoto != null) {
+            return bitmapPhoto;
+        }
+        //Make sure this has to be run on background task
+        ContactUtils.setContactPhoto(this);
         return bitmapPhoto;
+    }
+
+    public Bitmap getCircularBitmapPhoto() {
+        if(circularBitmapPhoto != null) {
+            return circularBitmapPhoto;
+        } else if(bitmapPhoto != null){
+            this.circularBitmapPhoto = BitmapUtils.getCircularBitmap(bitmapPhoto);
+            return circularBitmapPhoto;
+        } else {
+            //as default return bitmapPhoto
+            return null;
+        }
+    }
+
+    public Context getContext() {
+        return context;
     }
 
     public String getPhoneNumber() {
         if(phoneNumber != null){
             return phoneNumber;
         }
+        //Make sure this has to be run on as background task as it would have an performance impact if run
+        // on UI
         if(hasPhoneNumber) {
-            Cursor c = context.getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
-                    ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=?", new String[]{String.valueOf(getContactID())}, null);
-            try {
-                if (c.moveToNext()) {
-                    String number = c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                    this.setPhoneNumber(number);
-                    this.setType(getType(c));
-                }
-            }catch (Exception e) {
-                //Do nothing
-            } finally {
-                if(c != null) {
-                    c.close();
-                }
-            }
+            ContactUtils.setPhoneNumberAndType(this);
         }
-        return this.phoneNumber;
+        return phoneNumber;
     }
 
     public void setType(String type) {
         this.type = type;
     }
 
-    private String getType(Cursor c) {
-        int type = c.getInt(c.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
-        String returnType = "";
-        switch(type) {
-            case ContactsContract.CommonDataKinds.Phone.TYPE_HOME :
-                returnType = "Home";
-                break;
-            case ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE :
-                returnType = "Mobile";
-                break;
-            case ContactsContract.CommonDataKinds.Phone.TYPE_WORK :
-                returnType = "Work";
-                break;
-            case ContactsContract.CommonDataKinds.Phone.TYPE_OTHER :
-                returnType = "Other";
-                break;
-            case ContactsContract.CommonDataKinds.Phone.TYPE_CUSTOM :
-                returnType = c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Phone.LABEL));
-                break;
-        }
-        return returnType;
-    }
+
 }

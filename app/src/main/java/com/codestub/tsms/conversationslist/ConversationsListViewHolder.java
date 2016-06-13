@@ -25,7 +25,7 @@ public class ConversationsListViewHolder extends RecyclerView.ViewHolder{
         sender = (TextView) itemView.findViewById(R.id.sender);
         abstractConvo = (TextView) itemView.findViewById(R.id.abstractConvo);
         date = (TextView) itemView.findViewById(R.id.date);
-        photo = (ImageView) itemView.findViewById(R.id.contantPhoto);
+        photo = (ImageView) itemView.findViewById(R.id.senderPhoto);
         conversationsListMsgLayout = (RelativeLayout) itemView.findViewById(R.id.conversationsListMsgLayout);
     }
 }

@@ -2,12 +2,14 @@ package com.codestub.tsms.contact;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.media.Image;
 import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.Filter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.codestub.tsms.R;
@@ -19,12 +21,14 @@ import com.codestub.tsms.R;
 public class ContactsAdapter extends CursorAdapter {
 
     private LayoutInflater mInflater;
+    private ContactDetailsLoader mDetailsLoader;
 
-    public ContactsAdapter(Context context) {
+    public ContactsAdapter(Context context, ContactDetailsLoader detailsLoader) {
         super(context, null, 0);
 
         //Initializing inflater obj
         mInflater = LayoutInflater.from(context);
+        mDetailsLoader = detailsLoader;
     }
 
     @Override
@@ -34,6 +38,7 @@ public class ContactsAdapter extends CursorAdapter {
         final ContactViewHolder viewHolder = new ContactViewHolder();
         viewHolder.displayName = (TextView) itemLayout.findViewById(R.id.display_name);
         viewHolder.number = (TextView) itemLayout.findViewById(R.id.number);
+        viewHolder.contactPhoto = (ImageView) itemLayout.findViewById(R.id.contactPhoto);
 
         itemLayout.setTag(viewHolder);
         return itemLayout;
@@ -46,6 +51,9 @@ public class ContactsAdapter extends CursorAdapter {
         Contact contact = new Contact(context, cursor);
 
         viewHolder.displayName.setText(contact.getDisplayName());
-        viewHolder.number.setText(contact.getPhoneNumber());
+        //viewHolder.number.setText(contact.getPhoneNumber());
+
+        //load the contact details
+        mDetailsLoader.loadDetails(viewHolder, contact);
     }
 }

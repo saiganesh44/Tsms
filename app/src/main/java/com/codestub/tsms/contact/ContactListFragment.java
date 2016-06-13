@@ -35,6 +35,7 @@ public class ContactListFragment extends ListFragment implements LoaderManager.L
 
     private String mSearchTerm;
     private ContactsAdapter mAdapter;
+    private ContactDetailsLoader mDetailsLoader;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,7 +45,9 @@ public class ContactListFragment extends ListFragment implements LoaderManager.L
         // Let the fragment know that it supports menu items
         setHasOptionsMenu(true);
 
-        mAdapter = new ContactsAdapter(getActivity());
+        mDetailsLoader = new ContactDetailsLoader();
+
+        mAdapter = new ContactsAdapter(getActivity(), mDetailsLoader);
     }
 
     @Override

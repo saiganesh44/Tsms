@@ -19,8 +19,8 @@
             android:layout_alignTop="@+id/view">
 
             <ImageView
-                android:id="@+id/contantPhoto"
-                android:contentDescription="@string/contactPhotoDesc"
+                android:id="@+id/senderPhoto"
+                android:contentDescription="@string/senderPhotoDesc"
                 android:layout_width="40dp"
                 android:layout_height="40dp"/>
 
