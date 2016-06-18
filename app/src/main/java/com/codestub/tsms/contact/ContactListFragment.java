@@ -19,16 +19,18 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.SearchView;
 
 import com.codestub.tsms.R;
+import com.codestub.tsms.newconversation.NewConversationActivity;
 import com.codestub.tsms.utils.BuildUtils;
 
 /**
  * Class for Contacts list
  * Created by ganesh on 28/5/16.
  */
-public class ContactListFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Cursor>{
+public class ContactListFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Cursor>, AdapterView.OnItemClickListener{
 
     // Defines a tag for identifying log entries
     private static final String TAG = "ContactListFragment";
@@ -126,6 +128,7 @@ public class ContactListFragment extends ListFragment implements LoaderManager.L
         super.onActivityCreated(savedInstanceState);
 
         setListAdapter(mAdapter);
+        getListView().setOnItemClickListener(this);
         getLoaderManager().initLoader(ContactsQuery.QUERY_ID, null, this);
     }
 
@@ -175,4 +178,8 @@ public class ContactListFragment extends ListFragment implements LoaderManager.L
     }
 
 
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        NewConversationActivity.showSelectFab(true);
+    }
 }
