@@ -39,6 +39,7 @@ public class ContactsAdapter extends CursorAdapter {
         viewHolder.displayName = (TextView) itemLayout.findViewById(R.id.display_name);
         viewHolder.number = (TextView) itemLayout.findViewById(R.id.number);
         viewHolder.contactPhoto = (ImageView) itemLayout.findViewById(R.id.contactPhoto);
+        viewHolder.contactSelectedIcon = (ImageView) itemLayout.findViewById(R.id.contactSelectedIcon);
 
         itemLayout.setTag(viewHolder);
         return itemLayout;
@@ -51,7 +52,6 @@ public class ContactsAdapter extends CursorAdapter {
         Contact contact = new Contact(context, cursor);
 
         viewHolder.displayName.setText(contact.getDisplayName());
-        //viewHolder.number.setText(contact.getPhoneNumber());
 
         //load the contact details
         mDetailsLoader.loadDetails(viewHolder, contact);

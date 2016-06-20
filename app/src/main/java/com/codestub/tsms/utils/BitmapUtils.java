@@ -2,6 +2,7 @@ package com.codestub.tsms.utils;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -9,6 +10,9 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
+
+import com.codestub.tsms.R;
+import com.codestub.tsms.contact.Contact;
 
 /**
  * This class is used for bitmap operations
@@ -45,6 +49,31 @@ public class BitmapUtils {
         canvas.drawRoundRect(rectF, bitmap.getWidth()/2,bitmap.getHeight()/2, paint);
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
         canvas.drawBitmap(bitmap, rect, rect, paint);
+        return output;
+    }
+
+    /**
+     * This method returns the ticked bitmap when a contact is selected
+     * @param context of the view
+     * @return ticked bitmap
+     */
+    public static Bitmap getDoneBitmap(Context context) {
+        int dp = 50;
+        int value = (int) ConversionUtils.dpTopx(context, dp);
+
+        Bitmap icon = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_done_white_24dp);
+        Bitmap output = Bitmap.createBitmap(value, value, icon.getConfig());
+        Canvas canvas = new Canvas(output);
+        Paint paint = new Paint();
+        paint.setAntiAlias(true);
+        paint.setColor(0xff3F51B5);
+        canvas.drawCircle(value/2, value/2, value/2, paint);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setColor(Color.WHITE);
+        paint.setStrokeWidth(10);
+        canvas.drawCircle(value/2, value/2, (value/2)-5, paint);
+        canvas.drawBitmap(icon, value/4, value/4, null);
+
         return output;
     }
 }

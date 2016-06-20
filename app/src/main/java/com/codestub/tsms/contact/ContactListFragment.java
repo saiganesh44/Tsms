@@ -4,9 +4,7 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
-import android.nfc.Tag;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -20,10 +18,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.SearchView;
 
 import com.codestub.tsms.R;
 import com.codestub.tsms.newconversation.NewConversationActivity;
+import com.codestub.tsms.utils.BitmapUtils;
 import com.codestub.tsms.utils.BuildUtils;
 
 /**
@@ -129,6 +129,7 @@ public class ContactListFragment extends ListFragment implements LoaderManager.L
 
         setListAdapter(mAdapter);
         getListView().setOnItemClickListener(this);
+        getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         getLoaderManager().initLoader(ContactsQuery.QUERY_ID, null, this);
     }
 
@@ -180,6 +181,22 @@ public class ContactListFragment extends ListFragment implements LoaderManager.L
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        NewConversationActivity.showSelectFab(true);
+        final ContactViewHolder viewHolder = (ContactViewHolder) view.getTag();
+        final Cursor cursor = mAdapter.getCursor();
+        cursor.moveToPosition(position);
+        if(getListView().isItemChecked(position)) {
+            getListView().setItemChecked(position,true);
+            viewHolder.contactSelectedIcon.setImageBitmap(BitmapUtils.getDoneBitmap(getContext()));
+        } else {
+            getListView().setItemChecked(position,false);
+            Contact contact = new Contact(getContext(), cursor);
+            contact.getBitmapPhoto();
+            viewHolder.contactSelectedIcon.setImageResource(android.R.color.transparent);
+        }
+        if(getListView().getCheckedItemCount() == 0) {
+            NewConversationActivity.showSelectFab(false);
+        } else {
+            NewConversationActivity.showSelectFab(true);
+        }
     }
 }

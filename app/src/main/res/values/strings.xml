@@ -9,4 +9,5 @@
     <string name="no_contacts">No Contacts Found</string>
     <string name="menu_search">Search</string>
     <string name="search_hint">Find contacts</string>
+    <string name="selectedBitmapDesc">Selected Item</string>
 </resources>

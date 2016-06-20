@@ -14,6 +14,7 @@ public class ContactViewHolder {
     TextView displayName;
     TextView number;
     ImageView contactPhoto;
+    ImageView contactSelectedIcon;
 
     WeakReference<AsyncTask> asyncTaskReference;
 
